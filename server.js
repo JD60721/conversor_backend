@@ -6,7 +6,10 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: ['http://localhost:3000', 'https://conversor-frontend.vercel.app', 'https://*.vercel.app'],
+  credentials: true
+}));
 app.use(express.json());
 
 // Endpoint para convertir COP a USD
