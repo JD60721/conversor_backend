@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+
+# Development files
+*.log
+.env.local
+.env.development
+.env.test
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+
+# Documentation
+README.md
+*.md
+
+# Development dependencies
+nodemon.json
