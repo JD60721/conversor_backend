@@ -3,7 +3,7 @@ const cors = require('cors');
 const axios = require('axios');
 
 const app = express();
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 
 // Middleware
 app.use(cors());
@@ -105,6 +105,27 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', message: 'Servidor funcionando correctamente' });
 });
 
-app.listen(PORT, () => {
-  console.log(`Servidor corriendo en http://localhost:${PORT}`);
+// Ruta raíz para evitar el error "Cannot GET /"
+app.get('/', (req, res) => {
+  res.json({ 
+    message: 'API de Conversor Universal', 
+    version: '1.0.0',
+    endpoints: [
+      'POST /api/convert/cop-to-usd',
+      'POST /api/convert/meters-to-cm', 
+      'POST /api/convert/kg-to-lbs',
+      'POST /api/convert/kmh-to-mph',
+      'GET /api/health'
+    ]
+  });
 });
+
+// Para Vercel, exportar la app
+module.exports = app;
+
+// Solo escuchar en desarrollo local
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, () => {
+    console.log(`Servidor corriendo en http://localhost:${PORT}`);
+  });
+}
