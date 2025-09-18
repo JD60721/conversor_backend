@@ -7,10 +7,20 @@ const PORT = process.env.PORT || 3001;
 
 // Middleware
 app.use(cors({
-  origin: ['http://localhost:3000', 'https://conversor-frontend.vercel.app', 'https://*.vercel.app'],
-  credentials: true
+  origin: '*', // Permitir todos los orígenes temporalmente para debugging
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: false
 }));
 app.use(express.json());
+
+// Middleware adicional para manejar preflight requests
+app.options('*', (req, res) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.sendStatus(200);
+});
 
 // Endpoint para convertir COP a USD
 app.post('/api/convert/cop-to-usd', async (req, res) => {
